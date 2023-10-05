@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  frontend:
+    build:
+      context: frontend/.
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+  api:
+    build:
+      context: BackendApi/.
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_URLS=http://*:5158
+    ports:
+      - "5158:5158"
+  mysql:
+    image: mysql:8.1.0
+    env_file: ./.env
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQLDB_ROOT_PASSWORD
+      MYSQL_DATABASE: $MYSQLDB_DATABASE
+    ports:
+      - "3306:3306"
